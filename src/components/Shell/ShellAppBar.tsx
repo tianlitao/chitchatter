@@ -1,4 +1,5 @@
 import { styled, useTheme } from '@mui/material/styles'
+import { useTranslation } from 'react-i18next'
 
 import IconButton from '@mui/material/IconButton'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
@@ -87,6 +88,7 @@ export const ShellAppBar = ({
   setIsFullscreen,
 }: ShellAppBarProps) => {
   const theme = useTheme()
+  const { t } = useTranslation()
   const { peerList, isEmbedded, showRoomControls } = useContext(ShellContext)
   const handleQRCodeClick = () => setIsQRCodeDialogOpen(true)
   const onClickFullscreen = () => setIsFullscreen(!isFullscreen)
@@ -112,7 +114,7 @@ export const ShellAppBar = ({
                 size="large"
                 edge="start"
                 color="inherit"
-                aria-label="Open menu"
+                aria-label={t('openMenu')}
                 sx={{ mr: 2, ...(isDrawerOpen && { display: 'none' }) }}
                 onClick={onDrawerOpen}
               >
@@ -136,21 +138,21 @@ export const ShellAppBar = ({
             )}
             {isEmbedded ? null : (
               <>
-                <Tooltip title="Copy current URL">
+                <Tooltip title={t('copyCurrentUrl')}>
                   <IconButton
                     size="large"
                     color="inherit"
-                    aria-label="Copy current URL"
+                    aria-label={t('copyCurrentUrl')}
                     onClick={onLinkButtonClick}
                   >
                     <Link />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title="Show QR Code">
+                <Tooltip title={t('showQRCode')}>
                   <IconButton
                     size="large"
                     color="inherit"
-                    aria-label="Show QR Code"
+                    aria-label={t('showQRCode')}
                     onClick={handleQRCodeClick}
                   >
                     <QrCode2 />
@@ -166,41 +168,39 @@ export const ShellAppBar = ({
             )}
             <Tooltip
               title={
-                showRoomControls ? 'Hide Room Controls' : 'Show Room Controls'
+                showRoomControls ? t('hideRoomControls') : t('showRoomControls')
               }
             >
               <IconButton
                 size="large"
                 color="inherit"
-                aria-label="show room controls"
+                aria-label={t('showRoomControls')}
                 onClick={onRoomControlsClick}
               >
                 <RoomPreferences />
               </IconButton>
             </Tooltip>
             <Tooltip
-              title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+              title={isFullscreen ? t('exitFullscreen') : t('enterFullscreen')}
             >
               <IconButton
                 size="large"
                 edge="end"
                 color="inherit"
-                aria-label="fullscreen"
+                aria-label={t('fullscreen')}
                 onClick={onClickFullscreen}
               >
                 {isFullscreen ? <FullscreenExit /> : <Fullscreen />}
               </IconButton>
             </Tooltip>
-            <Tooltip title="Click to show peer list">
+            <Tooltip title={t('showPeerList')}>
               <IconButton
                 size="large"
                 edge="end"
                 color="inherit"
-                aria-label="Peer list"
+                aria-label={t('peerList')}
                 onClick={onPeerListClick}
-                sx={{
-                  ml: 1,
-                }}
+                sx={{ ml: 1 }}
               >
                 <StepIcon icon={peerList.length + 1} />
               </IconButton>
@@ -213,10 +213,10 @@ export const ShellAppBar = ({
         in={!showAppBar}
         unmountOnExit
       >
-        <Tooltip title="Show room controls">
+        <Tooltip title={t('showRoomControls')}>
           <Fab
             size="small"
-            aria-label="show room controls"
+            aria-label={t('showRoomControls')}
             color="primary"
             onClick={onRoomControlsClick}
           >

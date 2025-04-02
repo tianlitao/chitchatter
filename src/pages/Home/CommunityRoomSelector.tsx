@@ -9,10 +9,11 @@ import Accordion from '@mui/material/Accordion'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-
+import { useTranslation } from 'react-i18next'
 import { communityRoomNames } from 'config/communityRooms'
 
 export const CommunityRoomSelector = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null)
 
@@ -37,12 +38,11 @@ export const CommunityRoomSelector = () => {
           fontWeight: 'bold',
         }}
       >
-        Community rooms
+        {t('communityRooms')}
       </AccordionSummary>
       <AccordionDetails>
         <Typography variant="body1">
-          You can also chat in a public community room. You'll be anonymous, but
-          be careful what information you choose to share.
+          {t('communityRoomsDescription')}
         </Typography>
         <Box display="flex" mt={2} gap={1}>
           <Autocomplete
@@ -58,7 +58,7 @@ export const CommunityRoomSelector = () => {
             disabled={selectedRoom === null}
             onClick={handleJoinClick}
           >
-            Join
+            {t('join')}
           </Button>
         </Box>
       </AccordionDetails>

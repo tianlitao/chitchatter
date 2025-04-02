@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'
 import Box from '@mui/material/Box'
@@ -60,6 +61,7 @@ export interface ShellProps extends PropsWithChildren {
 const queryParams = new URLSearchParams(window.location.search)
 
 export const Shell = ({ appNeedsUpdate, children, userPeerId }: ShellProps) => {
+  const { t } = useTranslation()
   const { getUserSettings, updateUserSettings } = useContext(SettingsContext)
   const isEmbedded = queryParams.get(QueryParamKeys.IS_EMBEDDED) !== null
 
@@ -354,7 +356,7 @@ export const Shell = ({ appNeedsUpdate, children, userPeerId }: ShellProps) => {
     if (roomId !== undefined && password !== undefined) {
       setIsRoomShareDialogOpen(true)
     } else {
-      copyToClipboard(window.location.href, 'Current URL copied to clipboard')
+      copyToClipboard(window.location.href, t('currentUrlCopied'))
     }
   }
 
@@ -450,7 +452,7 @@ export const Shell = ({ appNeedsUpdate, children, userPeerId }: ShellProps) => {
                       textAlign: 'center',
                     }}
                   >
-                    This conversation is powered by{' '}
+                    {t('poweredBy')}{' '}
                     <Link
                       href="https://github.com/jeremyckahn/chitchatter"
                       target="_blank"

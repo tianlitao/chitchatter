@@ -1,4 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+
 import { styled } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
@@ -26,30 +28,31 @@ interface PeerListWrapperProps {
 export const PeerListHeader = ({
   onPeerListClose,
   connectionTestResults,
-}: PeerListWrapperProps) => (
-  <StyledHeader>
-    <IconButton onClick={onPeerListClose} aria-label="Close peer list">
-      <ChevronRightIcon />
-    </IconButton>
-    <ListItem>
-      <Routes>
-        {/*
-        This stub route is needed to silence spurious warnings in the tests.
-        */}
-        <Route path={routes.ROOT} element={<></>}></Route>
+}: PeerListWrapperProps) => {
+  const { t } = useTranslation()
 
-        {[routes.PUBLIC_ROOM, routes.PRIVATE_ROOM].map(route => (
-          <Route
-            key={route}
-            path={route}
-            element={
-              <ConnectionTestResults
-                connectionTestResults={connectionTestResults}
-              />
-            }
-          />
-        ))}
-      </Routes>
-    </ListItem>
-  </StyledHeader>
-)
+  return (
+    <StyledHeader>
+      <IconButton onClick={onPeerListClose} aria-label={t('closePeerList')}>
+        <ChevronRightIcon />
+      </IconButton>
+      <ListItem>
+        <Routes>
+          <Route path={routes.ROOT} element={<></>}></Route>
+
+          {[routes.PUBLIC_ROOM, routes.PRIVATE_ROOM].map(route => (
+            <Route
+              key={route}
+              path={route}
+              element={
+                <ConnectionTestResults
+                  connectionTestResults={connectionTestResults}
+                />
+              }
+            />
+          ))}
+        </Routes>
+      </ListItem>
+    </StyledHeader>
+  )
+}

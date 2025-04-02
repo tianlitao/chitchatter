@@ -1,4 +1,6 @@
 import { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
+
 import CircularProgress from '@mui/material/CircularProgress'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
@@ -17,6 +19,7 @@ interface ConnectionTestResultsProps {
 export const ConnectionTestResults = ({
   connectionTestResults: { hasHost, hasRelay, trackerConnection },
 }: ConnectionTestResultsProps) => {
+  const { t } = useTranslation()
   const { setIsServerConnectionFailureDialogOpen } = useContext(ShellContext)
 
   const handleServerConnectionFailedMessageClick = () => {
@@ -34,7 +37,7 @@ export const ConnectionTestResults = ({
           sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
         >
           <ReportIcon color="error" sx={{ mr: 1 }} />
-          <span>Server connection failed</span>
+          <span>{t('serverConnectionFailed')}</span>
         </Box>
       </Typography>
     )
@@ -47,7 +50,7 @@ export const ConnectionTestResults = ({
           sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
         >
           <CircularProgress size={16} sx={{ mr: 1.5 }} />
-          <span>Searching for servers...</span>
+          <span>{t('searchingForServers')}</span>
         </Box>
       </Typography>
     )
@@ -55,7 +58,7 @@ export const ConnectionTestResults = ({
 
   if (hasHost && hasRelay) {
     return (
-      <Tooltip title="Connections can be established with all peers that also have a full network connection.">
+      <Tooltip title={t('fullNetworkConnectionTooltip')}>
         <Typography variant="subtitle2">
           <Typography
             component="span"
@@ -63,13 +66,13 @@ export const ConnectionTestResults = ({
           >
             <Circle sx={{ fontSize: 'small' }} />
           </Typography>{' '}
-          Full network connection
+          {t('fullNetworkConnection')}
         </Typography>
       </Tooltip>
     )
   } else if (hasHost) {
     return (
-      <Tooltip title="Relay server is unavailable. Connections can only be established when a relay server is not needed for either peer.">
+      <Tooltip title={t('partialNetworkConnectionTooltip')}>
         <Typography variant="subtitle2">
           <Typography
             component="span"
@@ -77,13 +80,13 @@ export const ConnectionTestResults = ({
           >
             <Circle sx={{ fontSize: 'small' }} />
           </Typography>{' '}
-          Partial network connection
+          {t('partialNetworkConnection')}
         </Typography>
       </Tooltip>
     )
   } else {
     return (
-      <Tooltip title="Pairing server is unavailable. Peer connections cannot be established.">
+      <Tooltip title={t('noNetworkConnectionTooltip')}>
         <Typography variant="subtitle2">
           <Typography
             component="span"
@@ -91,7 +94,7 @@ export const ConnectionTestResults = ({
           >
             <Circle sx={{ fontSize: 'small' }} />
           </Typography>{' '}
-          No network connection
+          {t('noNetworkConnection')}
         </Typography>
       </Tooltip>
     )

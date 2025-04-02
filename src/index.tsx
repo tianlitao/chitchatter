@@ -1,12 +1,18 @@
 import './polyfills'
 import ReactDOM from 'react-dom/client'
+import i18n from 'i18next'
+import { initReactI18next } from 'react-i18next'
 import 'typeface-roboto'
+
+import LanguageDetector from 'i18next-browser-languagedetector'
 
 import 'modern-normalize/modern-normalize.css'
 import './index.css'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter'
+
+import { resources } from './i18n/translations'
 
 import Init from './Init'
 import reportWebVitals from './reportWebVitals'
@@ -24,6 +30,22 @@ import reportWebVitals from './reportWebVitals'
 ReactDOM.createRoot(document.createElement('div')).render(
   <SyntaxHighlighter language="" children={''} />
 )
+
+// 初始化 i18next
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources,
+    fallbackLng: 'en',
+    interpolation: {
+      escapeValue: false,
+    },
+    detection: {
+      order: ['localStorage', 'navigator'],
+      caches: ['localStorage'],
+    },
+  })
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(<Init />)

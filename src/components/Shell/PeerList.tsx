@@ -1,4 +1,6 @@
 import { PropsWithChildren } from 'react'
+import { useTranslation } from 'react-i18next'
+
 import List from '@mui/material/List'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
@@ -46,6 +48,8 @@ export const PeerList = ({
   peerAudioChannels,
   connectionTestResults,
 }: PeerListProps) => {
+  const { t } = useTranslation()
+
   return (
     <>
       <PeerListHeader
@@ -89,7 +93,7 @@ export const PeerList = ({
               }}
             >
               <CircularProgress size={16} sx={{ mr: 1.5 }} />
-              <span>Searching for peers...</span>
+              <span>{t('searchingForPeers')}</span>
             </Box>
           </>
         ) : null}

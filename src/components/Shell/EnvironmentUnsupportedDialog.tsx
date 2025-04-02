@@ -7,7 +7,7 @@ import ErrorIcon from '@mui/icons-material/Error'
 import Typography from '@mui/material/Typography'
 import useTheme from '@mui/material/styles/useTheme'
 import Link from '@mui/material/Link'
-
+import { useTranslation } from 'react-i18next'
 const { isSecureContext, RTCDataChannel } = window
 const doesSupportWebRtc = RTCDataChannel !== undefined
 
@@ -16,7 +16,7 @@ export const isEnvironmentSupported =
 
 export const EnvironmentUnsupportedDialog = () => {
   const theme = useTheme()
-
+  const { t } = useTranslation()
   return (
     <Dialog
       open={!isEnvironmentSupported}
@@ -32,12 +32,12 @@ export const EnvironmentUnsupportedDialog = () => {
               mr: theme.spacing(1),
             })}
           />
-          Environment unsupported
+          {t('environmentUnsupported')}
         </Box>
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Chitchatter is unable to start up. The following issues were detected:
+          {t('startupIssuesDetected')}
         </DialogContentText>
         <Typography
           component="ul"
@@ -48,26 +48,26 @@ export const EnvironmentUnsupportedDialog = () => {
         >
           {!isSecureContext ? (
             <li>
-              The app is not being served from a{' '}
+              {t('notSecureContext')}{' '}
               <Link
                 href="https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts"
                 rel="noreferrer"
                 target="_blank"
               >
-                secure context
+                {t('secureContext')}
               </Link>
               .
             </li>
           ) : null}
           {!doesSupportWebRtc ? (
             <li>
-              Your browser does not support WebRTC. Consider using{' '}
+              {t('webRTCNotSupported')}{' '}
               <Link
                 href="https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection#browser_compatibility"
                 rel="noreferrer"
                 target="_blank"
               >
-                a browser that does
+                {t('useSupportedBrowser')}
               </Link>
               .
             </li>

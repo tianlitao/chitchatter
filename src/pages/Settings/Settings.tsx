@@ -1,4 +1,6 @@
 import { ChangeEvent, useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
 import FileReaderInput, { Result } from 'react-file-reader-input'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -27,7 +29,7 @@ interface SettingsProps {
 
 export const Settings = ({ userId }: SettingsProps) => {
   const theme = useTheme()
-
+  const { t } = useTranslation()
   const { setTitle, showAlert } = useContext(ShellContext)
   const { updateUserSettings, getUserSettings } = useContext(SettingsContext)
   const { getPersistedStorage } = useContext(StorageContext)
@@ -55,8 +57,8 @@ export const Settings = ({ userId }: SettingsProps) => {
   }, [])
 
   useEffect(() => {
-    setTitle('Settings')
-  }, [setTitle])
+    setTitle(t('settings'))
+  }, [setTitle, t])
 
   const handlePlaySoundOnNewMessageChange = (
     _event: ChangeEvent,
@@ -110,7 +112,7 @@ export const Settings = ({ userId }: SettingsProps) => {
 
       updateUserSettings(userSettings)
 
-      showAlert('Profile successfully imported', { severity: 'success' })
+      showAlert(t('profileImportSuccess'), { severity: 'success' })
     } catch (e) {
       if (isErrorWithMessage(e)) {
         showAlert(e.message, { severity: 'error' })
@@ -130,10 +132,10 @@ export const Settings = ({ userId }: SettingsProps) => {
           mb: 2,
         }}
       >
-        Chat
+        {t('chat')}
       </Typography>
       <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
-        <Typography>When a message is received in the background:</Typography>
+        <Typography>{t('messageBackgroundNotification')}</Typography>
         <FormGroup>
           <FormControlLabel
             control={
@@ -142,7 +144,7 @@ export const Settings = ({ userId }: SettingsProps) => {
                 onChange={handlePlaySoundOnNewMessageChange}
               />
             }
-            label="Play a sound"
+            label={t('playSound')}
           />
           <FormControlLabel
             control={
@@ -154,12 +156,10 @@ export const Settings = ({ userId }: SettingsProps) => {
                 disabled={!areNotificationsAvailable}
               />
             }
-            label="Show a notification"
+            label={t('showNotification')}
           />
         </FormGroup>
-        <Typography mt={2}>
-          Select a sound that plays when you receive a message:
-        </Typography>
+        <Typography mt={2}>{t('selectSound')}</Typography>
         <SoundSelector disabled={!playSoundOnNewMessage} />
       </Paper>
       <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
@@ -171,12 +171,10 @@ export const Settings = ({ userId }: SettingsProps) => {
                 onChange={handleShowActiveTypingStatusChange}
               />
             }
-            label="Show active typing indicators"
+            label={t('showTypingIndicators')}
           />
         </FormGroup>
-        <Typography variant="subtitle2">
-          Disabling this will also hide your active typing status from others.
-        </Typography>
+        <Typography variant="subtitle2">{t('typingIndicatorsNote')}</Typography>
       </Paper>
       <Divider sx={{ my: 2 }} />
       <Typography
@@ -187,7 +185,7 @@ export const Settings = ({ userId }: SettingsProps) => {
           mb: 2,
         }}
       >
-        Data
+        {t('data')}
       </Typography>
       <Typography
         variant="h2"
@@ -197,7 +195,7 @@ export const Settings = ({ userId }: SettingsProps) => {
           mb: 1.5,
         }}
       >
-        Export profile data
+        {t('exportProfileData')}
       </Typography>
       <Typography
         variant="body1"
@@ -205,10 +203,9 @@ export const Settings = ({ userId }: SettingsProps) => {
           mb: 2,
         }}
       >
-        Export your Chitchatter profile data so that it can be moved to another
-        browser or device.{' '}
-        <strong>Be careful not to share the exported data with anyone</strong>.
-        It contains your unique verification keys.
+        {t('exportProfileDescription')}{' '}
+        <strong>{t('exportProfileWarning')}</strong>.
+        {t('containsVerificationKeys')}
       </Typography>
       <Button
         variant="outlined"
@@ -217,7 +214,7 @@ export const Settings = ({ userId }: SettingsProps) => {
         }}
         onClick={handleExportSettingsClick}
       >
-        Export profile data
+        {t('exportProfileData')}
       </Button>
       <Typography
         variant="h2"
@@ -227,7 +224,7 @@ export const Settings = ({ userId }: SettingsProps) => {
           mb: 1.5,
         }}
       >
-        Import profile data
+        {t('importProfileData')}
       </Typography>
       <Typography
         variant="body1"
@@ -235,8 +232,7 @@ export const Settings = ({ userId }: SettingsProps) => {
           mb: 2,
         }}
       >
-        Import your Chitchatter profile that was previously exported from
-        another browser or device.
+        {t('importProfileDescription')}
       </Typography>
       <FileReaderInput
         {...{
@@ -253,7 +249,7 @@ export const Settings = ({ userId }: SettingsProps) => {
             mb: 2,
           }}
         >
-          Import profile data
+          {t('importProfileData')}
         </Button>
       </FileReaderInput>
       <Typography
@@ -264,7 +260,7 @@ export const Settings = ({ userId }: SettingsProps) => {
           mb: 1.5,
         }}
       >
-        Delete all profile data
+        {t('deleteAllDataAndRestart')}
       </Typography>
       <Typography
         variant="body1"
@@ -272,8 +268,7 @@ export const Settings = ({ userId }: SettingsProps) => {
           mb: 2,
         }}
       >
-        <strong>Be careful with this</strong>. This will cause your user name to
-        change from{' '}
+        <strong>{t('beCarefulWithThis')}</strong>. {t('userNameChangeWarning')}{' '}
         <strong>
           <PeerNameDisplay
             sx={{
@@ -283,8 +278,7 @@ export const Settings = ({ userId }: SettingsProps) => {
             {userId}
           </PeerNameDisplay>
         </strong>{' '}
-        to a new, randomly-assigned name. It will also reset all of your saved
-        Chitchatter application preferences.
+        {t('userNameChangeWarning2')}
       </Typography>
       <Button
         variant="outlined"
@@ -294,7 +288,7 @@ export const Settings = ({ userId }: SettingsProps) => {
         }}
         onClick={handleDeleteSettingsClick}
       >
-        Delete all data and restart
+        {t('deleteAllDataAndRestart')}
       </Button>
       <ConfirmDialog
         isOpen={isDeleteSettingsConfirmDiaglogOpen}
@@ -307,9 +301,7 @@ export const Settings = ({ userId }: SettingsProps) => {
           mb: 2,
         }}
       >
-        Chitchatter only stores user preferences and never message content of
-        any kind. This preference data is only stored locally on your device and
-        not a server.
+        {t('dataStorageDisclaimer')}
       </Typography>
       <Divider sx={{ my: 2 }} />
     </Box>

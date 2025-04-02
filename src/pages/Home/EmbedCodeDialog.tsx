@@ -15,6 +15,8 @@ import { iframeFeatureAllowList } from 'config/iframeFeatureAllowList'
 import { homepageUrl } from 'config/routes'
 import { ChatEmbedAttributes } from 'models/sdk'
 
+import { useTranslation } from 'react-i18next'
+
 interface EmbedCodeDialogProps {
   showEmbedCode: boolean
   handleEmbedCodeWindowClose: () => void
@@ -26,6 +28,7 @@ export const EmbedCodeDialog = ({
   handleEmbedCodeWindowClose,
   roomName,
 }: EmbedCodeDialogProps) => {
+  const { t } = useTranslation()
   const iframeSrc = new URL(`${window.location.origin}/public/${roomName}`)
   iframeSrc.search = new URLSearchParams({ embed: '1' }).toString()
 
@@ -51,15 +54,10 @@ export const EmbedCodeDialog = ({
 
   return (
     <Dialog open={showEmbedCode} onClose={handleEmbedCodeWindowClose}>
-      <DialogTitle>Embedding Chitchatter</DialogTitle>
+      <DialogTitle>{t('embeddingChitchatter')}</DialogTitle>
       <DialogContent>
-        <DialogContentText
-          sx={{
-            mb: 2,
-          }}
-        >
-          Copy and paste this <code>iframe</code> HTML snippet into your
-          project:
+        <DialogContentText sx={{ mb: 2 }}>
+          {t('iframeSnippetInstruction')}
         </DialogContentText>
         <CopyableBlock>
           <SyntaxHighlighter
@@ -88,28 +86,28 @@ export const EmbedCodeDialog = ({
             mb: 2,
           })}
         >
-          Advanced Embedding
+          {t('advancedEmbedding')}
         </Typography>
-        <DialogContentText
-          sx={{
-            mb: 2,
-          }}
-        >
-          As an alternative to using an <code>iframe</code>, you can use the{' '}
-          <Link
-            href="https://github.com/jeremyckahn/chitchatter#SDK"
-            target="_blank"
-          >
-            Chitchatter SDK
-          </Link>{' '}
-          to embed a chat room as a{' '}
-          <Link
-            href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components"
-            target="_blank"
-          >
-            Web Component
-          </Link>{' '}
-          with additional configuration options:
+        <DialogContentText sx={{ mb: 2 }}>
+          {t('sdkEmbedDescription', {
+            iframeTag: '<code>iframe</code>',
+            sdkLink: (
+              <Link
+                href="https://github.com/jeremyckahn/chitchatter#SDK"
+                target="_blank"
+              >
+                Chitchatter SDK
+              </Link>
+            ),
+            webComponentLink: (
+              <Link
+                href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components"
+                target="_blank"
+              >
+                Web Component
+              </Link>
+            ),
+          })}
         </DialogContentText>
         <CopyableBlock>
           <SyntaxHighlighter
@@ -129,7 +127,7 @@ export const EmbedCodeDialog = ({
         </CopyableBlock>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleEmbedCodeWindowClose}>Close</Button>
+        <Button onClick={handleEmbedCodeWindowClose}>{t('close')}</Button>
       </DialogActions>
     </Dialog>
   )

@@ -21,6 +21,8 @@ import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 import ReportIcon from '@mui/icons-material/Report'
 import GitInfo from 'react-git-info/macro'
+import { useTranslation } from 'react-i18next'
+import LanguageIcon from '@mui/icons-material/Language'
 
 import { routes } from 'config/routes'
 import { SettingsContext } from 'contexts/SettingsContext'
@@ -38,12 +40,18 @@ export interface DrawerProps extends PropsWithChildren {
 export const Drawer = ({ isDrawerOpen, onDrawerClose }: DrawerProps) => {
   const theme = useTheme()
   const settingsContext = useContext(SettingsContext)
+  const { t, i18n } = useTranslation()
   const colorMode = settingsContext.getUserSettings().colorMode
 
   const handleColorModeToggleClick = () => {
     const newMode =
       colorMode === ColorMode.LIGHT ? ColorMode.DARK : ColorMode.LIGHT
     settingsContext.updateUserSettings({ colorMode: newMode })
+  }
+
+  const handleLanguageChange = () => {
+    const newLang = i18n.language === 'en' ? 'zh' : 'en'
+    i18n.changeLanguage(newLang)
   }
 
   return (
@@ -86,7 +94,7 @@ export const Drawer = ({ isDrawerOpen, onDrawerClose }: DrawerProps) => {
               <ListItemIcon>
                 <Home />
               </ListItemIcon>
-              <ListItemText primary="Home" />
+              <ListItemText primary={t('home')} />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -96,7 +104,7 @@ export const Drawer = ({ isDrawerOpen, onDrawerClose }: DrawerProps) => {
               <ListItemIcon>
                 <SettingsApplications />
               </ListItemIcon>
-              <ListItemText primary="Settings" />
+              <ListItemText primary={t('settings')} />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -106,7 +114,7 @@ export const Drawer = ({ isDrawerOpen, onDrawerClose }: DrawerProps) => {
               <ListItemIcon>
                 <QuestionMark />
               </ListItemIcon>
-              <ListItemText primary="About" />
+              <ListItemText primary={t('about')} />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -116,7 +124,7 @@ export const Drawer = ({ isDrawerOpen, onDrawerClose }: DrawerProps) => {
               <ListItemIcon>
                 <ReportIcon />
               </ListItemIcon>
-              <ListItemText primary="Disclaimer" />
+              <ListItemText primary={t('disclaimer')} />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -129,7 +137,17 @@ export const Drawer = ({ isDrawerOpen, onDrawerClose }: DrawerProps) => {
                 <Brightness4Icon />
               )}
             </ListItemIcon>
-            <ListItemText primary="Change theme" />
+            <ListItemText primary={t('changeTheme')} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton onClick={handleLanguageChange}>
+            <ListItemIcon>
+              <LanguageIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary={t(i18n.language === 'en' ? 'switchToZh' : 'switchToEn')}
+            />
           </ListItemButton>
         </ListItem>
         <Divider />

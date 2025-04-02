@@ -4,7 +4,22 @@ import { SettingsContext } from 'contexts/SettingsContext'
 import { MemoryRouter as Router } from 'react-router-dom'
 import { userSettingsContextStubFactory } from 'test-utils/stubs/settingsContext'
 
+import i18next from 'i18next'
+
+import { initReactI18next } from 'react-i18next'
+
+import { resources } from '../../i18n/translations'
+
 import { Shell, ShellProps } from './Shell'
+
+i18next.use(initReactI18next).init({
+  resources,
+  lng: 'en',
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false,
+  },
+})
 
 const mockUserPeerId = 'abc123'
 
@@ -27,6 +42,10 @@ const ShellStub = (shellProps: Partial<ShellProps> = {}) => {
 }
 
 describe('Shell', () => {
+  beforeEach(() => {
+    // 确保测试使用英文
+    i18next.changeLanguage('en')
+  })
   describe('menu drawer', () => {
     test('can be opened', async () => {
       render(<ShellStub />)

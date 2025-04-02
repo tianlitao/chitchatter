@@ -1,4 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
 import { Link, useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
@@ -31,6 +33,7 @@ interface HomeProps {
 }
 
 export function Home({ userId }: HomeProps) {
+  const { t } = useTranslation()
   const { setTitle } = useContext(ShellContext)
   const theme = useTheme()
   const [roomName, setRoomName] = useState(uuid())
@@ -94,21 +97,21 @@ export function Home({ userId }: HomeProps) {
           sx={{ maxWidth: theme.breakpoints.values.sm, mx: 'auto' }}
         >
           <Typography sx={{ mb: 2 }}>
-            Your username:{' '}
+            {t('yourUsername')}:{' '}
             <PeerNameDisplay paragraph={false} sx={{ fontWeight: 'bold' }}>
               {userId}
             </PeerNameDisplay>
           </Typography>
           <FormControl fullWidth>
             <TextField
-              label="Room name (generated on your device)"
+              label={t('roomNameLabel')}
               variant="outlined"
               value={roomName}
               onChange={handleRoomNameChange}
               InputProps={{
                 endAdornment: (
                   <IconButton
-                    aria-label="Regenerate room id"
+                    aria-label={t('regenerateRoomId')}
                     onClick={() => setRoomName(uuid())}
                     size="small"
                   >
@@ -134,7 +137,7 @@ export function Home({ userId }: HomeProps) {
               }}
               disabled={!isRoomNameValid}
             >
-              Join public room
+              {t('joinPublicRoom')}
             </Button>
             <Button
               variant="contained"
@@ -145,7 +148,7 @@ export function Home({ userId }: HomeProps) {
               }}
               disabled={!isRoomNameValid}
             >
-              Join private room
+              {t('joinPrivateRoom')}
             </Button>
             <Button
               variant="contained"
@@ -157,7 +160,7 @@ export function Home({ userId }: HomeProps) {
               }}
               disabled={!isRoomNameValid}
             >
-              Get embed code
+              {t('getEmbedCode')}
             </Button>
           </Box>
         </Form>
@@ -175,12 +178,7 @@ export function Home({ userId }: HomeProps) {
           px: 2,
         }}
       >
-        <Typography variant="body1">
-          This is a free communication tool that is designed for simplicity,
-          privacy, and security. All interaction between you and your online
-          peers is encrypted. There is no record of your conversation once you
-          all leave.
-        </Typography>
+        <Typography variant="body1">{t('introText')}</Typography>
       </Box>
       <Box
         sx={{
