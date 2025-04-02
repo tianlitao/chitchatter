@@ -7,7 +7,7 @@ import {
   ActionReceiver,
   ActionSender,
   RelayConfig,
-} from 'trystero/torrent'
+} from 'trystero/nostr'
 
 import { sleep } from 'lib/sleep'
 import { StreamType } from 'models/chat'

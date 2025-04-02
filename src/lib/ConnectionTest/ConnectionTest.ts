@@ -1,4 +1,4 @@
-import { getRelaySockets } from 'trystero/torrent'
+import { getRelaySockets } from 'trystero/nostr'
 import { rtcConfig } from 'config/rtcConfig'
 import { parseCandidate } from 'sdp'
 
