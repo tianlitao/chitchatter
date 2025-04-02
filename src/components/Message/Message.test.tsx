@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import { SettingsContext } from 'contexts/SettingsContext'
-import { funAnimalName } from 'fun-animal-names'
 
 import { ReceivedMessage, UnsentMessage } from 'models/chat'
 import { userSettingsContextStubFactory } from 'test-utils/stubs/settingsContext'
+
+import { getPeerName } from '../PeerNameDisplay/getPeerName'
 
 import { Message, MessageProps } from './Message'
 
@@ -68,6 +69,6 @@ describe('Message', () => {
       />
     )
 
-    screen.getByText(funAnimalName(mockUserId))
+    screen.getByText(getPeerName(mockUserId))
   })
 })

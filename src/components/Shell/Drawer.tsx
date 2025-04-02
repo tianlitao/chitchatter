@@ -50,7 +50,7 @@ export const Drawer = ({ isDrawerOpen, onDrawerClose }: DrawerProps) => {
   }
 
   const handleLanguageChange = () => {
-    const newLang = i18n.language === 'en' ? 'zh' : 'en'
+    const newLang = i18n.language === 'en' ? 'zh-CN' : 'en'
     i18n.changeLanguage(newLang)
   }
 

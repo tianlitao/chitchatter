@@ -29,8 +29,10 @@ const maxCustomUsernameLength = 30
 
 export const UserInfo = ({ userId }: UserInfoProps) => {
   const theme = useTheme()
-  const { t } = useTranslation()
-  const userName = getPeerName(userId)
+  const { t, i18n } = useTranslation()
+  const userName = getPeerName(userId, {
+    language: i18n.language === 'zh-CN' ? 'zh' : 'en',
+  })
 
   const { customUsername, setCustomUsername, showAlert } =
     useContext(ShellContext)

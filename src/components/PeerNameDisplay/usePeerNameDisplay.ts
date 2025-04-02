@@ -1,10 +1,12 @@
 import { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { SettingsContext } from 'contexts/SettingsContext'
 import { ShellContext } from 'contexts/ShellContext'
 
 import { getPeerName } from './getPeerName'
 
 export const usePeerNameDisplay = () => {
+  const { i18n } = useTranslation()
   const { getUserSettings } = useContext(SettingsContext)
   const { peerList, customUsername: selfCustomUsername } =
     useContext(ShellContext)
@@ -23,8 +25,9 @@ export const usePeerNameDisplay = () => {
 
   const getFriendlyName = (userId: string) => {
     const customUsername = getCustomUsername(userId)
-    const friendlyName = customUsername || getPeerName(userId)
-
+    const friendlyName =
+      customUsername ||
+      getPeerName(userId, { language: i18n.language === 'zh-CN' ? 'zh' : 'en' })
     return friendlyName
   }
 
@@ -35,9 +38,11 @@ export const usePeerNameDisplay = () => {
     let displayUsername: string
 
     if (customUsername === friendlyName) {
-      displayUsername = `${friendlyName} (${getPeerName(userId)})`
+      displayUsername = `${friendlyName} (${getPeerName(userId, { language: i18n.language === 'zh-CN' ? 'zh' : 'en' })})`
     } else {
-      displayUsername = getPeerName(userId)
+      displayUsername = getPeerName(userId, {
+        language: i18n.language === 'zh-CN' ? 'zh' : 'en',
+      })
     }
 
     return displayUsername

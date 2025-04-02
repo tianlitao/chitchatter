@@ -1,5 +1,7 @@
 import Typography, { TypographyProps } from '@mui/material/Typography'
 
+import { useTranslation } from 'react-i18next'
+
 import { usePeerNameDisplay } from './usePeerNameDisplay'
 import { getPeerName } from './getPeerName'
 
@@ -11,6 +13,7 @@ export const PeerNameDisplay = ({
   children: userId,
   ...rest
 }: PeerNameDisplayProps) => {
+  const { i18n } = useTranslation()
   const { getCustomUsername, getFriendlyName } = usePeerNameDisplay()
 
   const friendlyName = getFriendlyName(userId)
@@ -22,14 +25,20 @@ export const PeerNameDisplay = ({
         {friendlyName}
         <Typography variant="caption" {...rest}>
           {' '}
-          ({getPeerName(userId)})
+          (
+          {getPeerName(userId, {
+            language: i18n.language === 'zh-CN' ? 'zh' : 'en',
+          })}
+          )
         </Typography>
       </Typography>
     )
   } else {
     return (
       <Typography component="span" {...rest}>
-        {getPeerName(userId)}
+        {getPeerName(userId, {
+          language: i18n.language === 'zh-CN' ? 'zh' : 'en',
+        })}
       </Typography>
     )
   }

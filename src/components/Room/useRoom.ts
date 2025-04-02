@@ -1,4 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { BaseRoomConfig } from 'trystero'
 import { RelayConfig } from 'trystero/nostr'
 import { v4 as uuid } from 'uuid'
@@ -66,6 +67,7 @@ export function useRoom(
     timeService = time,
   }: UseRoomConfig
 ) {
+  const { i18n } = useTranslation()
   const isPrivate = password !== undefined
 
   const isDirectMessageRoom = typeof targetPeerId === 'string'
@@ -311,8 +313,15 @@ export function useRoom(
         verifyPeer(newPeer)
       } else {
         const oldUsername =
-          peerList[peerIndex].customUsername || getPeerName(peerUserId)
-        const newUsername = peerCustomUsername || getPeerName(peerUserId)
+          peerList[peerIndex].customUsername ||
+          getPeerName(peerUserId, {
+            language: i18n.language === 'zh-CN' ? 'zh' : 'en',
+          })
+        const newUsername =
+          peerCustomUsername ||
+          getPeerName(peerUserId, {
+            language: i18n.language === 'zh-CN' ? 'zh' : 'en',
+          })
 
         setPeerList(prev => {
           const newPeerList = [...prev]
